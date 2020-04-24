@@ -270,7 +270,7 @@ public class Questions {
 		String in = cardNumber;
 		// check first char == 4 ||5||6 FAIL return false
 		if (!(in.startsWith("4") || in.startsWith("5") || in.startsWith("6"))) {
-			System.out.println("firstchar");
+			//System.out.println("firstchar");
 			return false;
 		}
 		// check for "-" presence
@@ -279,35 +279,44 @@ public class Questions {
 			String[] hyphArr = in.split("-");
 			for (String ele : hyphArr) {
 				if (ele.length() > 4) {
-					System.out.println("hyphenlen");
+			//		System.out.println("hyphenlen");
 					return false;
 				}
 			}
 		}
 		// remove any "-"
 		in = in.replace("-", "");
-		in =in.trim();
-		System.out.println(in);
-		
-		
+		in = in.trim();
+		//System.out.println(in);
+
 		// check length == 16 FAIL return false
-		if(in.length()!= 16) {System.out.println("numlength"+ in.length());return false;}
+		if (in.length() != 16) {
+			//System.out.println("numlength" + in.length());
+			return false;
+		}
 		// check for only chars in range (0,9) FAIL return false
-			try {long l = Long.parseLong(in);
-			}catch(Exception e) {
-				e.printStackTrace();
-				System.out.println("dissalowed chars");
+		try {
+			long l = Long.parseLong(in);
+		} catch (Exception e) {
+			e.printStackTrace();
+			//System.out.println("dissalowed chars");
+			return false;
+		}
+		// check for only < 4 repeated chars in a row FAIL return false
+		int MAXCOUNT = 3, count = 0;
+		char ch1 = in.charAt(0), ch2;
+		for (int i = 1; i < in.length() - 1; i++) {
+			ch2 = in.charAt(i);
+			if (ch1 == ch2) {
+				count = count + 1;
+			}
+			if (count >= MAXCOUNT) {
+				//System.out.println("repetedchars");
 				return false;
 			}
-		// check for only < 4 repeated chars in a row FAIL return false
-			int MAXCOUNT = 3, count = 0; char ch1 =in.charAt(0),ch2;
-			for(int i = 1; i < in.length()-1;i++) {
-				ch2 = in.charAt(i);
-				if(ch1 == ch2) { count = count + 1;}
-				if(count >= MAXCOUNT) {System.out.println("repetedchars");return false;}
-				ch1 = ch2;
-			}
-		//input passes tests PASS return true	
+			ch1 = ch2;
+		}
+		// input passes tests PASS return true
 		return true;
 	}
 }
